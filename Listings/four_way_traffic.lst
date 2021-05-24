@@ -1,0 +1,82 @@
+C51 COMPILER V9.60.0.0   FOUR_WAY_TRAFFIC                                                  05/24/2021 21:53:46 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE FOUR_WAY_TRAFFIC
+OBJECT MODULE PLACED IN .\Objects\four_way_traffic.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE four_way_traffic.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\L
+                    -istings\four_way_traffic.lst) TABS(2) OBJECT(.\Objects\four_way_traffic.obj)
+
+line level    source
+
+   1          #include<reg51.h>
+   2          //values of 7-segment display from 9 to 0
+   3          unsigned char ch[]={0xF7,0XFF,0XE1,0XBF,0XB7,0X67,0XF3,0XDB,0X61,0xFD};
+   4          unsigned int i,z;
+   5          
+   6          //giving a delay of 1sec
+   7          int delay()
+   8          {
+   9   1        //20 times runing
+  10   1        for(z=0;z<20;z++)
+  11   1        {
+  12   2          TMOD = 0X01;
+  13   2          TL0 = 0XB0;
+  14   2          TH0 = 0X3C;
+  15   2          TR0 = 1;
+  16   2          //50 ms delay
+  17   2          while(TF0==0);
+  18   2            TF0=0;
+  19   2            TR0=0;
+  20   2        }
+  21   1      }
+  22          void count(){
+  23   1        P3 = 0XF7; //Port 3 for giving input to the 7 segment display, start from number 9
+  24   1        //displaying each number on 7 segment display for 1 second
+  25   1        for(i=0;i<sizeof ch;i++)
+  26   1        {
+  27   2          P3 = ch[i];
+  28   2          delay();
+  29   2        }
+  30   1      }
+  31          int main()
+  32          {
+  33   1        while(1)
+  34   1        {
+  35   2          //;casee I - when East = Green, South = Yellow, West = Red, North = Red
+  36   2          P2 = 0x2A;
+  37   2          P1 = 0x04;
+  38   2          count();
+  39   2          
+  40   2          //;casee II - when East = Red, South = Green, West = Yellow, North = Red
+  41   2          P2 = 0x85;
+  42   2          P1 = 0x04;
+  43   2          count();
+  44   2          
+  45   2          //;casee III - when East = Red, South = Red, West = Green, North = Yellow
+  46   2          P2 = 0x90;
+  47   2          P1 = 0x0A;
+  48   2          count();
+  49   2          
+  50   2          //;casee IV - when East = Yellow, South = Red, West = Red, North = Green
+  51   2          P2 = 0x52;
+  52   2          P1 = 0x01;
+  53   2          count();
+  54   2        }
+C51 COMPILER V9.60.0.0   FOUR_WAY_TRAFFIC                                                  05/24/2021 21:53:46 PAGE 2   
+
+  55   1      }
+*** WARNING C290 IN LINE 21 OF four_way_traffic.c: missing return value
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    113    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     14    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

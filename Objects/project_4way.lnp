@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\four_way_traffic.obj" 
+TO ".\Objects\project_4way" 
+PRINT(".\Listings\project_4way.m51")
